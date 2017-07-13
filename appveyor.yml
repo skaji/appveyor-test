@@ -9,5 +9,6 @@ install:
   - cpanm -nq "https://github.com/skaji/cpanminus.git@quote"
   - cpanm-menlo -nq --reinstall Acme::123 App::FatPacker
   - perl -ne "print" C:\Users\appveyor\.cpanm\build.log
+  - cpanm-menlo -n -v --reinstall Acme::123 App::FatPacker
 test_script:
   - echo DONE
