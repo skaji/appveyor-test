@@ -28,6 +28,17 @@ sub show_mtimes {
             $file;
     } sort @file;
 }
+sub touch_now {
+    my @file;
+    for my $e (@_) {
+        if (-f $e) {
+            push @file, $e;
+        } elsif (-d $e) {
+            find({wanted => sub { push @file, $_ if -f }, no_chdir => 1}, $e);
+        }
+    }
+    utime $^T, $^T, @file;
+}
 sub info {
     warn "--> @_\n";
 }
@@ -45,12 +56,16 @@ for (1..2) {
     sleep 2;
     info "3. copy share";
     rcopy "share", "share_copy" or die $!;
+    info "3-1. touch now";
+    touch_now "share_copy";
     show_mtimes "share", "share_copy";
 
     info "4. sleep 2";
     sleep 2;
     info "5. copy share/file.txt";
     copy "share/file.txt", "file_copy.txt" or die $!;
+    info "5-1. touch now";
+    touch_now "file_copy.txt";
     show_mtimes "share/file.txt", "file_copy.txt";
 }
 
