@@ -1,14 +1,14 @@
-# cf http://qiita.com/pine613/items/3fdc4e1bd06065cc056d
 build: off
 shallow_clone: true
+skip_tags: true
+skip_branch_with_pr: true
+cache:
+  - C:\strawberry
 init:
   - git config --global core.autocrlf input
 install:
-  - choco install strawberryperl --version 5.24.1.1
+  - if not exist "C:\strawberry" choco install strawberryperl
   - SET "PATH=C:\strawberry\c\bin;C:\strawberry\perl\site\bin;C:\strawberry\perl\bin;%PATH%"
-  - cpanm -nq "https://github.com/skaji/cpanminus.git@quote"
-  - cpanm-menlo -nq --reinstall Acme::123 App::FatPacker
-  - perl -ne "print" C:\Users\appveyor\.cpanm\build.log
-  - cpanm-menlo -n -v --reinstall Acme::123 App::FatPacker
+  - cpanm -nq --installdeps .
 test_script:
-  - echo DONE
+  - perl test.pl
