@@ -31,8 +31,8 @@ index 1077f48..8a8c7d9 100644
    VERSION_FROM => 'lib/App/FatPacker.pm',
 ___
 
-system "patch", "--batch", "-p0", "-i", "hoge.patch";
-
+system q{"patch" "--batch" "-p0" "-i" "hoge.patch" >> "build.log" 2>&1};
 warn $?;
-
 warn path("Makefile.PL")->slurp;
+warn "---------\n";
+warn path("build.log")->slurp;
